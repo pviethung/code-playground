@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import esbuild, { BuildResult } from 'esbuild-wasm';
-import { unpkgPathPlugin } from './plugins/unpkgPathPlugin';
+import { resolvePathPlugin } from './plugins/resolvePathPlugin';
+import { loadPathPlugin } from './plugins/loadPathPlugin';
 
 let esbuildInitialized = false;
 
@@ -12,7 +13,7 @@ function App() {
     console.count('[effect run]');
     const startEsBuild = async () => {
       await esbuild.initialize({
-        wasmURL: './esbuild.wasm',
+        wasmURL: 'https://unpkg.com/esbuild-wasm@0.15.7/esbuild.wasm',
       });
     };
     esbuildInitialized = true;
@@ -27,7 +28,7 @@ function App() {
       bundle: true,
       write: false,
       entryPoints: ['index.ts'],
-      plugins: [unpkgPathPlugin()],
+      plugins: [resolvePathPlugin(), loadPathPlugin(input)],
       define: {
         'process.env.NODE_ENV': '"production"',
         global: 'window',
