@@ -39,41 +39,74 @@ function App() {
     startEsBuild();
   }, []);
 
-  const runCodeHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!esbuildInitialized) return;
+  useEffect(() => {
+    const bundle = async () => {
+      if (!esbuildInitialized) return;
 
-    if (iframeRef.current?.srcdoc) {
-      iframeRef.current.srcdoc = iframeHtml;
-    }
+      if (iframeRef.current?.srcdoc) {
+        iframeRef.current.srcdoc = iframeHtml;
+      }
 
-    const bundledCode: BuildResult = await esbuild.build({
-      bundle: true,
-      write: false,
-      entryPoints: ['index.ts'],
-      outfile: 'test2.html',
-      plugins: [resolvePathPlugin(), loadPathPlugin(input)],
-      define: {
-        'process.env.NODE_ENV': '"production"',
-        global: 'window',
-      },
-    });
+      const bundledCode: BuildResult = await esbuild.build({
+        bundle: true,
+        write: false,
+        entryPoints: ['index.ts'],
+        outfile: 'test2.html',
+        plugins: [resolvePathPlugin(), loadPathPlugin(input)],
+        define: {
+          'process.env.NODE_ENV': '"production"',
+          global: 'window',
+        },
+      });
 
-    // console.log(transformedCode);
-    iframeRef.current?.contentWindow?.postMessage(
-      bundledCode?.outputFiles?.[0].text,
-      '*'
-    );
-  };
+      // console.log(transformedCode);
+      iframeRef.current?.contentWindow?.postMessage(
+        bundledCode?.outputFiles?.[0].text,
+        '*'
+      );
+    };
+    const timeOutID = setTimeout(bundle, 2000);
+
+    return () => {
+      console.log('unmouting');
+      clearTimeout(timeOutID);
+    };
+  }, [input]);
+
+  // const runCodeHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!esbuildInitialized) return;
+
+  //   if (iframeRef.current?.srcdoc) {
+  //     iframeRef.current.srcdoc = iframeHtml;
+  //   }
+
+  //   const bundledCode: BuildResult = await esbuild.build({
+  //     bundle: true,
+  //     write: false,
+  //     entryPoints: ['index.ts'],
+  //     outfile: 'test2.html',
+  //     plugins: [resolvePathPlugin(), loadPathPlugin(input)],
+  //     define: {
+  //       'process.env.NODE_ENV': '"production"',
+  //       global: 'window',
+  //     },
+  //   });
+
+  //   // console.log(transformedCode);
+  //   iframeRef.current?.contentWindow?.postMessage(
+  //     bundledCode?.outputFiles?.[0].text,
+  //     '*'
+  //   );
+  // };
 
   return (
     <>
-      <form onSubmit={runCodeHandler}>
+      <form>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
         ></textarea>
-        <button>Run code</button>
       </form>
       <iframe
         ref={iframeRef}
