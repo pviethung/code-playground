@@ -28,6 +28,7 @@ function App() {
       bundle: true,
       write: false,
       entryPoints: ['index.ts'],
+      outfile: 'test2.html',
       plugins: [resolvePathPlugin(), loadPathPlugin(input)],
       define: {
         'process.env.NODE_ENV': '"production"',
@@ -41,14 +42,21 @@ function App() {
   };
 
   return (
-    <form onSubmit={runCodeHandler}>
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      ></textarea>
-      <button>Run code</button>
-      <pre>{code}</pre>
-    </form>
+    <>
+      <form onSubmit={runCodeHandler}>
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        ></textarea>
+        <button>Run code</button>
+        <pre>{code}</pre>
+      </form>
+      <iframe
+        sandbox="allow-scripts"
+        srcDoc={`<script>${code}</script>`}
+        title="test"
+      ></iframe>
+    </>
   );
 }
 
