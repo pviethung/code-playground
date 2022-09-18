@@ -1,13 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import esbuild, { BuildResult } from 'esbuild-wasm';
 import { resolvePathPlugin } from './plugins/resolvePathPlugin';
 import { loadPathPlugin } from './plugins/loadPathPlugin';
 
 let esbuildInitialized = false;
+const iframeHtml = `
+  <html>
+    <head></head>
+    <body>
+      <div id="root"></div>
+      <script>
+        window.addEventListener('message', (e) => {
+          const script = document.createElement('script');
+          document.head.appendChild(script);
+          script.innerHTML = e.data;
+        }, false);
+        window.addEventListener('error', (e) => {
+          document.querySelector('#root').innerHTML = '<div style="color: red;">' + e.message + '</div>'
+        });
+      </script>
+    </body>
+  </html>  
+
+`;
 
 function App() {
-  const [code, setCode] = useState<string | undefined>('');
   const [input, setInput] = useState('');
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
     console.count('[effect run]');
@@ -24,6 +43,10 @@ function App() {
     e.preventDefault();
     if (!esbuildInitialized) return;
 
+    if (iframeRef.current?.srcdoc) {
+      iframeRef.current.srcdoc = iframeHtml;
+    }
+
     const bundledCode: BuildResult = await esbuild.build({
       bundle: true,
       write: false,
@@ -37,8 +60,10 @@ function App() {
     });
 
     // console.log(transformedCode);
-    setCode(bundledCode?.outputFiles?.[0].text);
-    console.log(bundledCode?.outputFiles);
+    iframeRef.current?.contentWindow?.postMessage(
+      bundledCode?.outputFiles?.[0].text,
+      '*'
+    );
   };
 
   return (
@@ -49,12 +74,12 @@ function App() {
           onChange={(e) => setInput(e.target.value)}
         ></textarea>
         <button>Run code</button>
-        <pre>{code}</pre>
       </form>
       <iframe
+        ref={iframeRef}
         sandbox="allow-scripts"
-        srcDoc={`<script>${code}</script>`}
-        title="test"
+        srcDoc={iframeHtml}
+        title="code-playground"
       ></iframe>
     </>
   );
