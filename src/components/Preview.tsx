@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react';
+import './Preview.css';
 
 interface PreviewProps {
   bundledCode: string;
+  bundledError: string;
 }
 
 const iframeHtml = `
   <html>
     <head></head>
     <body>
-      <div id="root" style="font-size: 80px;"></div>
+      <div id="root"></div>
       <script>
         window.addEventListener('message', (e) => {
           const script = document.createElement('script');
@@ -16,8 +18,7 @@ const iframeHtml = `
           script.innerHTML = e.data;
         }, false);
         window.addEventListener('error', (e) => {
-          debugger;
-          document.querySelector('#root').innerHTML = '<div style="color: red;">' + e.message + '</div>'
+          document.querySelector('#root').innerHTML = '<h3 style="color: red;">' + e.message + '</h3>'
         });
       </script>
     </body>
@@ -25,7 +26,7 @@ const iframeHtml = `
 
 `;
 
-const Preview: React.FC<PreviewProps> = ({ bundledCode }) => {
+const Preview: React.FC<PreviewProps> = ({ bundledCode, bundledError }) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   useEffect(() => {
     if (iframeRef.current?.srcdoc) iframeRef.current.srcdoc = iframeHtml;
@@ -35,13 +36,20 @@ const Preview: React.FC<PreviewProps> = ({ bundledCode }) => {
     return () => {};
   }, [bundledCode]);
 
+  if (bundledError) {
+    console.error(bundledError);
+  }
+
   return (
-    <iframe
-      ref={iframeRef}
-      sandbox="allow-scripts"
-      srcDoc={iframeHtml}
-      title="code-playground"
-    ></iframe>
+    <>
+      {bundledError && <h3 className="error-msg">{bundledError}</h3>}
+      <iframe
+        ref={iframeRef}
+        sandbox="allow-scripts"
+        srcDoc={iframeHtml}
+        title="code-playground"
+      ></iframe>
+    </>
   );
 };
 export default Preview;

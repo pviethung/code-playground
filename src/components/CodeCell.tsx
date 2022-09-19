@@ -8,11 +8,13 @@ import './CodeCell.css';
 const CodeCell = () => {
   const [input, setInput] = useState('const a = 1;');
   const [bundledCode, setBundledCode] = useState('');
+  const [bundledError, setBundledError] = useState('');
 
   useEffect(() => {
     const timeOutID = setTimeout(async () => {
       const result = await bundle(input);
-      setBundledCode(result);
+      setBundledCode(result.code);
+      setBundledError(result.error);
     }, 1000);
 
     return () => clearTimeout(timeOutID);
@@ -25,7 +27,7 @@ const CodeCell = () => {
           <CodeEditor value={input} onChange={(value) => setInput(value)} />
         </Resizable>
         <div className="iframe-wrapper">
-          <Preview bundledCode={bundledCode} />
+          <Preview bundledCode={bundledCode} bundledError={bundledError} />
         </div>
       </div>
     </Resizable>

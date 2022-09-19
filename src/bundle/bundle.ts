@@ -1,5 +1,5 @@
 import { resolvePathPlugin, loadPathPlugin } from 'bundle/plugins';
-import esbuild, { BuildResult } from 'esbuild-wasm';
+import esbuild from 'esbuild-wasm';
 
 let esbuildInitialized = false;
 
@@ -11,21 +11,28 @@ const bundle = async (input: string) => {
     esbuildInitialized = true;
   }
 
-  const bundledCode: BuildResult = await esbuild.build({
-    bundle: true,
-    write: false,
-    entryPoints: ['index.ts'],
-    outfile: 'test2.html',
-    plugins: [resolvePathPlugin(), loadPathPlugin(input)],
-    define: {
-      'process.env.NODE_ENV': '"production"',
-      global: 'window',
-    },
-  });
-
-  if (bundledCode?.outputFiles?.[0].text)
-    return bundledCode.outputFiles[0].text;
-  return '';
+  try {
+    const bundledCode = await esbuild.build({
+      bundle: true,
+      write: false,
+      entryPoints: ['index.ts'],
+      outfile: 'test2.html',
+      plugins: [resolvePathPlugin(), loadPathPlugin(input)],
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        global: 'window',
+      },
+    });
+    return {
+      error: '',
+      code: bundledCode.outputFiles[0].text,
+    };
+  } catch (error: any) {
+    return {
+      code: '',
+      error: error.message as string,
+    };
+  }
 };
 
 export default bundle;

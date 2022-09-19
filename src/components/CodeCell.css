@@ -5,23 +5,6 @@
 .cell-wrapper > .react-resizable {
   display: flex;
 }
-.cell-wrapper > .iframe-wrapper {
-  flex: 1;
-  background-color: #fff;
-  position: relative;
-}
-.cell-wrapper > .iframe-wrapper > iframe {
-  width: 100%;
-  height: 100%;
-}
-.react-draggable-transparent-selection .cell-wrapper > .iframe-wrapper::after {
-  content: '';
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 
 .react-resizable-handle {
   display: block;
