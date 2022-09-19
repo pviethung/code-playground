@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import esbuild, { BuildResult } from 'esbuild-wasm';
 import { resolvePathPlugin } from './plugins/resolvePathPlugin';
 import { loadPathPlugin } from './plugins/loadPathPlugin';
+import CodeEditor from './components/CodeEditor';
+
+import 'bulmaswatch/solar/bulmaswatch.min.css';
 
 let esbuildInitialized = false;
 const iframeHtml = `
@@ -25,11 +28,10 @@ const iframeHtml = `
 `;
 
 function App() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('const a = 1;');
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
-    console.count('[effect run]');
     const startEsBuild = async () => {
       await esbuild.initialize({
         wasmURL: 'https://unpkg.com/esbuild-wasm@0.15.7/esbuild.wasm',
@@ -67,10 +69,7 @@ function App() {
     };
     const timeOutID = setTimeout(bundle, 2000);
 
-    return () => {
-      console.log('unmouting');
-      clearTimeout(timeOutID);
-    };
+    return () => clearTimeout(timeOutID);
   }, [input]);
 
   // const runCodeHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,11 +101,9 @@ function App() {
 
   return (
     <>
+      <CodeEditor value={input} onChange={(value) => setInput(value)} />
       <form>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        ></textarea>
+        <textarea onChange={(e) => setInput(e.target.value)}></textarea>
       </form>
       <iframe
         ref={iframeRef}
