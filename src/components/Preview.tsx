@@ -8,7 +8,7 @@ const iframeHtml = `
   <html>
     <head></head>
     <body>
-      <div id="root"></div>
+      <div id="root" style="font-size: 80px;"></div>
       <script>
         window.addEventListener('message', (e) => {
           const script = document.createElement('script');
@@ -16,6 +16,7 @@ const iframeHtml = `
           script.innerHTML = e.data;
         }, false);
         window.addEventListener('error', (e) => {
+          debugger;
           document.querySelector('#root').innerHTML = '<div style="color: red;">' + e.message + '</div>'
         });
       </script>
@@ -26,10 +27,11 @@ const iframeHtml = `
 
 const Preview: React.FC<PreviewProps> = ({ bundledCode }) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-
   useEffect(() => {
     if (iframeRef.current?.srcdoc) iframeRef.current.srcdoc = iframeHtml;
-    iframeRef.current?.contentWindow?.postMessage(bundledCode, '*');
+    setTimeout(() => {
+      iframeRef.current?.contentWindow?.postMessage(bundledCode, '*');
+    }, 50);
     return () => {};
   }, [bundledCode]);
 

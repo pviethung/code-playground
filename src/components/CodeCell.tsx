@@ -2,6 +2,8 @@ import bundle from 'bundle/bundle';
 import { useEffect, useState } from 'react';
 import CodeEditor from './CodeEditor';
 import Preview from './Preview';
+import Resizable from './Resizable';
+import './CodeCell.css';
 
 const CodeCell = () => {
   const [input, setInput] = useState('const a = 1;');
@@ -11,16 +13,22 @@ const CodeCell = () => {
     const timeOutID = setTimeout(async () => {
       const result = await bundle(input);
       setBundledCode(result);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timeOutID);
   }, [input]);
 
   return (
-    <>
-      <CodeEditor value={input} onChange={(value) => setInput(value)} />
-      <Preview bundledCode={bundledCode} />
-    </>
+    <Resizable axis="y">
+      <div className="cell-wrapper">
+        <Resizable axis="x">
+          <CodeEditor value={input} onChange={(value) => setInput(value)} />
+        </Resizable>
+        <div className="iframe-wrapper">
+          <Preview bundledCode={bundledCode} />
+        </div>
+      </div>
+    </Resizable>
   );
 };
 export default CodeCell;

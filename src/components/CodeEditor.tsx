@@ -78,7 +78,7 @@ const CodeEditor: React.FC<EditorProps> = ({ value, onChange }) => {
           showUnused: false,
         }}
         theme="vs-dark"
-        height="90vh"
+        height="100%"
         defaultLanguage="javascript"
         defaultValue="// some comment"
       />

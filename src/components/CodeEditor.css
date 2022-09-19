@@ -1,6 +1,8 @@
 .editor-wrapper {
   position: relative;
+  width: calc(100% - 10px);
 }
+
 .editor-wrapper > button {
   position: absolute;
   right: 5px;
