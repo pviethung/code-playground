@@ -5,7 +5,7 @@ import parserBabel from 'prettier/parser-babel';
 
 import { Buffer } from 'buffer';
 import process from 'process';
-import './CodeEditor.css';
+import 'components/CodeEditor.css';
 
 window.process = window.process || process;
 window.Buffer = window.Buffer || Buffer;
