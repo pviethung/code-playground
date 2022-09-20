@@ -36,10 +36,6 @@ const Preview: React.FC<PreviewProps> = ({ bundledCode, bundledError }) => {
     return () => {};
   }, [bundledCode]);
 
-  if (bundledError) {
-    console.error(bundledError);
-  }
-
   return (
     <>
       {bundledError && <h3 className="error-msg">{bundledError}</h3>}

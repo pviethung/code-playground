@@ -1,0 +1,28 @@
+.text-editor ul {
+  list-style: initial;
+}
+.text-editor .w-md-editor-bar {
+  bottom: -1px;
+  background-color: #37414b;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 10px;
+  width: 100%;
+  cursor: row-resize;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+}
+
+.text-editor .w-md-editor-bar svg {
+  display: none;
+}
+.text-editor .card {
+  border: 0;
+  border-radius: 0;
+}
+.text-editor .list {
+  background-color: unset;
+}
+.text-editor .wmde-markdown pre code,
+.wmde-markdown pre tt {
+  padding: 0 !important;
+}
