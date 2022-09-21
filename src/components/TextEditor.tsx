@@ -3,7 +3,7 @@ import './TextEditor.css';
 import { useEffect, useRef, useState } from 'react';
 import CellToolbar from './CellToolbar';
 
-const TextEditor = () => {
+const TextEditor = ({ id }: { id: string }) => {
   const [value, setValue] = useState('**Hello world!!!**');
   const [editing, setEditing] = useState(true);
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -25,7 +25,7 @@ const TextEditor = () => {
 
   return (
     <div className={`text-editor ${editing && 'editing'}`}>
-      <CellToolbar />
+      <CellToolbar id={id} />
       {editing ? (
         <div ref={editorRef}>
           <MDEditor value={value} onChange={(value) => setValue(value || '')} />

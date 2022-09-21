@@ -6,7 +6,7 @@ import Resizable from './Resizable';
 import './CodeCell.css';
 import CellToolbar from './CellToolbar';
 
-const CodeCell = () => {
+const CodeCell = ({ id }: { id: string }) => {
   const [input, setInput] = useState('const a = 1;');
   const [bundledCode, setBundledCode] = useState('');
   const [bundledError, setBundledError] = useState('');
@@ -23,7 +23,7 @@ const CodeCell = () => {
 
   return (
     <div className="code-cell-wrapper">
-      <CellToolbar />
+      <CellToolbar id={id} />
       <Resizable axis="y">
         <div className="cell-wrapper">
           <Resizable axis="x">

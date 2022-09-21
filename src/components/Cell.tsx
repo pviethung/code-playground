@@ -14,7 +14,7 @@ const Cell = ({ id, type }: CellProps) => {
   return (
     <div key={id}>
       <CellDivider id={id} />
-      {type === 'text' ? <TextEditor /> : <CodeCell />}
+      {type === 'text' ? <TextEditor id={id} /> : <CodeCell id={id} />}
     </div>
   );
 };
