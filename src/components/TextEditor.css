@@ -26,3 +26,26 @@
 .wmde-markdown pre tt {
   padding: 0 !important;
 }
+
+.text-editor {
+  position: relative;
+}
+.text-editor .cell-toolbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: max-content;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.text-editor:hover .cell-toolbar {
+  opacity: 1;
+}
+
+.text-editor .cell-toolbar button {
+  margin: 0 1px;
+}
+.text-editor.editing .cell-toolbar {
+  display: none;
+}

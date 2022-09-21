@@ -1,1 +1,8 @@
-export * from './cellReducer';
+import { combineReducers } from 'redux';
+import { cellReducer } from './cellReducer';
+
+const rootReducer = combineReducers({
+  cell: cellReducer,
+});
+
+export { rootReducer };

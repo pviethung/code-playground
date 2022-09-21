@@ -1,6 +1,9 @@
 import { CellAction, CellActionTypes, CellTypes } from './types';
 
-const insertCell = (id: string, cellType: CellTypes): CellAction => {
+const insertCellBefore = (
+  id: string | null,
+  cellType: CellTypes
+): CellAction => {
   return {
     type: CellActionTypes.INSERT_CELL_BEFORE,
     payload: {
@@ -10,4 +13,4 @@ const insertCell = (id: string, cellType: CellTypes): CellAction => {
   };
 };
 
-export { insertCell };
+export { insertCellBefore };

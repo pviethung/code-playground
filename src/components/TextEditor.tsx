@@ -1,6 +1,7 @@
 import MDEditor from '@uiw/react-md-editor';
 import './TextEditor.css';
 import { useEffect, useRef, useState } from 'react';
+import CellToolbar from './CellToolbar';
 
 const TextEditor = () => {
   const [value, setValue] = useState('**Hello world!!!**');
@@ -23,13 +24,14 @@ const TextEditor = () => {
   };
 
   return (
-    <div className="text-editor">
+    <div className={`text-editor ${editing && 'editing'}`}>
+      <CellToolbar />
       {editing ? (
         <div ref={editorRef}>
           <MDEditor value={value} onChange={(value) => setValue(value || '')} />
         </div>
       ) : (
-        <div onClick={(e) => previewClick(e)}>
+        <div className="text-editor-preview" onClick={(e) => previewClick(e)}>
           <MDEditor.Markdown className="card card-content" source={value} />
         </div>
       )}

@@ -4,6 +4,7 @@ import CodeEditor from './CodeEditor';
 import Preview from './Preview';
 import Resizable from './Resizable';
 import './CodeCell.css';
+import CellToolbar from './CellToolbar';
 
 const CodeCell = () => {
   const [input, setInput] = useState('const a = 1;');
@@ -21,16 +22,19 @@ const CodeCell = () => {
   }, [input]);
 
   return (
-    <Resizable axis="y">
-      <div className="cell-wrapper">
-        <Resizable axis="x">
-          <CodeEditor value={input} onChange={(value) => setInput(value)} />
-        </Resizable>
-        <div className="iframe-wrapper">
-          <Preview bundledCode={bundledCode} bundledError={bundledError} />
+    <div className="code-cell-wrapper">
+      <CellToolbar />
+      <Resizable axis="y">
+        <div className="cell-wrapper">
+          <Resizable axis="x">
+            <CodeEditor value={input} onChange={(value) => setInput(value)} />
+          </Resizable>
+          <div className="iframe-wrapper">
+            <Preview bundledCode={bundledCode} bundledError={bundledError} />
+          </div>
         </div>
-      </div>
-    </Resizable>
+      </Resizable>
+    </div>
   );
 };
 export default CodeCell;

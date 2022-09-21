@@ -1,0 +1,19 @@
+.cell-content {
+  position: relative;
+}
+.cell-content .cell-toolbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: max-content;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.cell-content:hover .cell-toolbar {
+  opacity: 1;
+}
+
+.cell-content .cell-toolbar button {
+  margin: 0 1px;
+}

@@ -25,3 +25,28 @@
   cursor: col-resize;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
 }
+
+.code-cell-wrapper {
+  padding-top: 32px;
+  position: relative;
+  background-color: #1e1e1e;
+}
+.code-cell-wrapper .cell-toolbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: max-content;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.code-cell-wrapper:hover .cell-toolbar {
+  opacity: 1;
+}
+
+.code-cell-wrapper .cell-toolbar button {
+  margin: 0 1px;
+}
+.code-cell-wrapper.editing .cell-toolbar {
+  display: none;
+}

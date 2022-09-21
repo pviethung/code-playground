@@ -1,14 +1,14 @@
 import 'bulmaswatch/solar/bulmaswatch.min.css';
+import Cells from 'components/Cells';
+import { useAppSelector } from 'hooks/useAppSelector';
 
-// import CodeCell from 'components/CodeCell';
-import TextEditor from 'components/TextEditor';
+import 'App.css';
 
 function App() {
-  return (
-    <>
-      <TextEditor />
-    </>
-  );
+  const order = useAppSelector((state) => state.cell.order);
+  console.log(order);
+
+  return <Cells />;
 }
 
 export default App;
