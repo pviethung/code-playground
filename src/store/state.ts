@@ -2,7 +2,7 @@ import { CellTypes } from './actions/types';
 
 interface Cell {
   id: string;
-  content: '';
+  content: string;
   type: CellTypes;
 }
 
@@ -14,4 +14,11 @@ interface CellsState {
   order: string[];
 }
 
-export type { CellsState, CellTypes };
+interface BundleState {
+  [key: string]: {
+    error: string;
+    code: string;
+  };
+}
+
+export type { CellsState, CellTypes, Cell, BundleState };

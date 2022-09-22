@@ -18,6 +18,10 @@ const initialState: CellsState = {
 const cellReducer = produce(
   (state: CellsState = initialState, action: CellAction): CellsState => {
     switch (action.type) {
+      case CellActionTypes.UPDATE_CELL:
+        state.data[action.payload.id].content = action.payload.content;
+
+        return state;
       case CellActionTypes.INSERT_CELL_BEFORE:
         const newCellId = uid();
         const currentCellId = action.payload.id;
@@ -33,7 +37,6 @@ const cellReducer = produce(
 
         state.order.splice(currentCellIdx, 0, newCellId);
         return state;
-
       case CellActionTypes.DELETE_CELL:
         const deleteCellId = action.payload;
         const deleteCellIdx = state.order.findIndex(
@@ -43,33 +46,24 @@ const cellReducer = produce(
         state.order.splice(deleteCellIdx, 1);
 
         return state;
+      case CellActionTypes.MOVE_CELL:
+        const moveCellId = action.payload.id;
+        const moveCellIdx = state.order.findIndex((id) => id === moveCellId);
+        let siblingCellIdx: number;
 
-      case CellActionTypes.MOVE_CELL_UP:
-        const cellUpId = action.payload;
-        const cellUpIdx = state.order.findIndex((id) => id === cellUpId);
-        const prevCellIdx = cellUpIdx - 1;
+        if (action.payload.direction === 'up') {
+          siblingCellIdx = moveCellIdx - 1;
+          if (siblingCellIdx < 0) return state;
+        } else {
+          siblingCellIdx = moveCellIdx + 1;
+          if (siblingCellIdx === state.order.length) return state;
+        }
 
-        if (prevCellIdx < 0) return state;
-
-        const tempUpCell = state.order[cellUpIdx];
-        state.order[cellUpIdx] = state.order[prevCellIdx];
-        state.order[prevCellIdx] = tempUpCell;
-
-        return state;
-
-      case CellActionTypes.MOVE_CELL_DOWN:
-        const cellDownId = action.payload;
-        const cellDownIdx = state.order.findIndex((id) => id === cellDownId);
-        const afterCellIdx = cellDownIdx + 1;
-
-        if (afterCellIdx === state.order.length) return state;
-
-        const tempUpDown = state.order[cellDownIdx];
-        state.order[cellDownIdx] = state.order[afterCellIdx];
-        state.order[afterCellIdx] = tempUpDown;
+        const tempCell = state.order[moveCellIdx];
+        state.order[moveCellIdx] = state.order[siblingCellIdx];
+        state.order[siblingCellIdx] = tempCell;
 
         return state;
-
       default:
         return state;
     }

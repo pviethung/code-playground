@@ -1,20 +1,17 @@
-import { useAppDispatch } from 'hooks/useAppDispatch';
+import { useAppActions } from 'hooks/useAppActions';
 import { FaArrowUp, FaArrowDown, FaTimes } from 'react-icons/fa';
-import { deleteCell } from 'store/actions/deleteCell';
-import { moveCellDown } from 'store/actions/moveCellDown';
-import { moveCellUp } from 'store/actions/moveCellUp';
-import { CellAction } from 'store/actions/types';
 
-const CellToolbar = ({ id }: { id: string }) => {
-  const dispatch = useAppDispatch<CellAction>();
+const CellActionBar = ({ id }: { id: string }) => {
+  const { moveCell, deleteCell } = useAppActions();
+
   const deleteCellHandler = () => {
-    dispatch(deleteCell(id));
+    deleteCell(id);
   };
   const moveUpCellHandler = () => {
-    dispatch(moveCellUp(id));
+    moveCell(id, 'up');
   };
   const moveDownCellHandler = () => {
-    dispatch(moveCellDown(id));
+    moveCell(id, 'down');
   };
 
   return (
@@ -40,4 +37,4 @@ const CellToolbar = ({ id }: { id: string }) => {
     </div>
   );
 };
-export default CellToolbar;
+export default CellActionBar;

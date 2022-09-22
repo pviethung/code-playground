@@ -1,31 +1,34 @@
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import { insertCellBefore } from 'store/actions';
-import { CellAction } from 'store/actions/types';
+import { useAppActions } from 'hooks/useAppActions';
 import { CellTypes } from 'store/state';
 
 import './CellDivider.css';
 
 interface CellDividerProps {
   id: string | null;
+  className?: string;
 }
 
-const CellDivider = ({ id }: CellDividerProps) => {
-  const dispatch = useAppDispatch<CellAction>();
-  const insertCell = (e: React.MouseEvent, type: CellTypes) => {
-    dispatch(insertCellBefore(id, type));
+const CellDivider = ({ id, className }: CellDividerProps) => {
+  const { insertCellBefore } = useAppActions();
+
+  const insertCell = (type: CellTypes) => {
+    // dispatch(insertCellBefore(id, type));
+    return (e: React.MouseEvent) => {
+      insertCellBefore(id, type);
+    };
   };
 
   return (
-    <div className="cells-divider">
+    <div className={`cells-divider ${className}`}>
       <button
         className="button is-primary is-small"
-        onClick={(e) => insertCell(e, 'text')}
+        onClick={insertCell('text')}
       >
         + Text
       </button>
       <button
         className="button is-primary is-small"
-        onClick={(e) => insertCell(e, 'code')}
+        onClick={insertCell('code')}
       >
         + Code
       </button>

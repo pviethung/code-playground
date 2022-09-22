@@ -1,7 +1,7 @@
 import MDEditor from '@uiw/react-md-editor';
 import './TextEditor.css';
 import { useEffect, useRef, useState } from 'react';
-import CellToolbar from './CellToolbar';
+import CellActionBar from './CellActionBar';
 
 const TextEditor = ({ id }: { id: string }) => {
   const [value, setValue] = useState('**Hello world!!!**');
@@ -25,7 +25,7 @@ const TextEditor = ({ id }: { id: string }) => {
 
   return (
     <div className={`text-editor ${editing && 'editing'}`}>
-      <CellToolbar id={id} />
+      <CellActionBar id={id} />
       {editing ? (
         <div ref={editorRef}>
           <MDEditor value={value} onChange={(value) => setValue(value || '')} />

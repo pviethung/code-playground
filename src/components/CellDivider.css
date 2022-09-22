@@ -23,6 +23,8 @@
   left: 24px;
   top: 50%;
 }
+
+.cells-divider.active::after,
 .cells-divider:hover::after {
   border-color: #c9d1d9 !important;
 }

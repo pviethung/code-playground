@@ -1,12 +1,19 @@
 type CellTypes = 'text' | 'code';
+type CellMoveDirections = 'up' | 'down';
 
 enum CellActionTypes {
   INSERT_CELL_BEFORE = 'insert_cell_before',
   INSERT_CELL_AFTER = 'insert_cell_after',
   DELETE_CELL = 'delete_cell',
-  MOVE_CELL_UP = 'move_cell_up',
-  MOVE_CELL_DOWN = 'move_cell_down',
+  MOVE_CELL = 'move_cell',
+  UPDATE_CELL = 'update_cell',
 }
+
+enum BundleActionTypes {
+  BUNDLE_START,
+  BUNDLE_END,
+}
+
 interface InsertCellBeforeAction {
   type: CellActionTypes.INSERT_CELL_BEFORE;
   payload: {
@@ -26,21 +33,47 @@ interface DeleteCell {
   type: CellActionTypes.DELETE_CELL;
   payload: string;
 }
-interface MoveCellUp {
-  type: CellActionTypes.MOVE_CELL_UP;
-  payload: string;
+
+interface MoveCell {
+  type: CellActionTypes.MOVE_CELL;
+  payload: {
+    id: string;
+    direction: CellMoveDirections;
+  };
 }
-interface MoveCellDown {
-  type: CellActionTypes.MOVE_CELL_DOWN;
-  payload: string;
+interface UpdateCell {
+  type: CellActionTypes.UPDATE_CELL;
+  payload: {
+    id: string;
+    content: string;
+  };
+}
+
+interface BundleStartAction {
+  type: BundleActionTypes.BUNDLE_START;
+  payload: {
+    id: string;
+    input: string;
+  };
+}
+
+interface BundleEndAction {
+  type: BundleActionTypes.BUNDLE_END;
+  payload: {
+    id: string;
+    code: string;
+    error: string;
+  };
 }
 
 type CellAction =
   | InsertCellBeforeAction
   | InsertCellAfterAction
   | DeleteCell
-  | MoveCellUp
-  | MoveCellDown;
+  | MoveCell
+  | UpdateCell;
 
-export { CellActionTypes };
-export type { CellTypes, CellAction };
+type BundleAction = BundleStartAction | BundleEndAction;
+
+export { CellActionTypes, BundleActionTypes };
+export type { CellTypes, CellAction, BundleAction, CellMoveDirections };
