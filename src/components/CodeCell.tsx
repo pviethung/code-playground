@@ -10,7 +10,7 @@ import { useAppActions, useAppSelector } from 'hooks';
 const CodeCell = ({ id, content }: Cell) => {
   const { bundle, updateCell } = useAppActions();
   const bundleResult = useAppSelector(({ bundle }) => bundle) as BundleState;
-  let time = 3000;
+  let time = 1000;
   if (!bundleResult[id]) {
     time = 0;
   }
