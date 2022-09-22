@@ -15,10 +15,7 @@ interface CellsState {
 }
 
 interface BundleState {
-  [key: string]: {
-    error: string;
-    code: string;
-  };
+  [key: string]: { error: string; code: string };
 }
 
 export type { CellsState, CellTypes, Cell, BundleState };

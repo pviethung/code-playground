@@ -26,7 +26,7 @@ const iframeHtml = `
 
 `;
 
-const Preview: React.FC<PreviewProps> = ({ bundledCode, bundledError }) => {
+const Preview = ({ bundledCode, bundledError }: PreviewProps) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   useEffect(() => {
     if (iframeRef.current?.srcdoc) iframeRef.current.srcdoc = iframeHtml;

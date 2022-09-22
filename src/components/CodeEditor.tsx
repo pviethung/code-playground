@@ -15,7 +15,7 @@ interface EditorProps {
   onChange(value: string): void;
 }
 
-const CodeEditor: React.FC<EditorProps> = ({ value, onChange }) => {
+const CodeEditor = ({ value, onChange }: EditorProps) => {
   const onChangeHandler: OnChange = (
     value: string | undefined,
     e: editor.IModelContentChangedEvent

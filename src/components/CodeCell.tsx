@@ -1,33 +1,33 @@
-import bundle from 'bundle/bundle';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CodeEditor from './CodeEditor';
 import Preview from './Preview';
 import Resizable from './Resizable';
 import './CodeCell.css';
 import CellActionBar from './CellActionBar';
-import { Cell } from 'store/state';
-import { useAppActions } from 'hooks/useAppActions';
-import { useAppSelector } from 'hooks/useAppSelector';
+import { BundleState, Cell } from 'store/state';
+import { useAppActions, useAppSelector } from 'hooks';
 
 const CodeCell = ({ id, content }: Cell) => {
   const { bundle, updateCell } = useAppActions();
-  const code = useAppSelector(({ bundle }) => bundle);
+  const bundleResult = useAppSelector(({ bundle }) => bundle) as BundleState;
+  let time = 3000;
+  if (!bundleResult[id]) {
+    time = 0;
+  }
 
   const inputChangeHandler = (input: string) => {
-    updateCell(id, input);
+    return updateCell(id, input);
   };
-
-  console.log('[code ', code);
-  console.log('[content ', content);
 
   useEffect(() => {
     const timeOutID = setTimeout(async () => {
-      console.log('[start bundle]');
-      bundle(id, content);
-    }, 1000);
+      console.log('start bundle', time);
+
+      return bundle(id, content);
+    }, time);
 
     return () => clearTimeout(timeOutID);
-  }, [bundle, id, content]);
+  }, [bundle, id, content, time]);
 
   return (
     <div className="code-cell-wrapper">
@@ -37,8 +37,13 @@ const CodeCell = ({ id, content }: Cell) => {
           <Resizable axis="x">
             <CodeEditor value={content} onChange={inputChangeHandler} />
           </Resizable>
-          <div className="iframe-wrapper">
-            {/* <Preview bundledCode={bundledCode} bundledError={bundledError} /> */}
+          <div className="iframe-wrapper" style={{ background: 'blue' }}>
+            {(bundleResult[id]?.code || bundleResult[id]?.error) && (
+              <Preview
+                bundledCode={bundleResult[id]?.code}
+                bundledError={bundleResult[id]?.error}
+              />
+            )}
           </div>
         </div>
       </Resizable>
