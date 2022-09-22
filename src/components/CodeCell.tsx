@@ -37,7 +37,7 @@ const CodeCell = ({ id, content }: Cell) => {
           <Resizable axis="x">
             <CodeEditor value={content} onChange={inputChangeHandler} />
           </Resizable>
-          <div className="iframe-wrapper" style={{ background: 'blue' }}>
+          <div className="iframe-wrapper">
             {(bundleResult[id]?.code || bundleResult[id]?.error) && (
               <Preview
                 bundledCode={bundleResult[id]?.code}
