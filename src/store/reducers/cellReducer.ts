@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { CellAction, CellActionTypes } from 'store/actions/types';
+import { initialData } from 'store/InitialData';
 import { CellsState } from 'store/state';
 
 const uid = () => {
@@ -9,11 +10,13 @@ const uid = () => {
   );
 };
 
-const initialState: CellsState = {
-  loading: false,
-  data: {},
-  order: [],
-};
+// const initialState: CellsState = {
+//   loading: false,
+//   data: {},
+//   order: [],
+// };
+
+const initialState: CellsState = initialData;
 
 const cellReducer = produce(
   (state: CellsState = initialState, action: CellAction): CellsState => {

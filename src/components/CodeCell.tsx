@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { useAppActions, useAppSelector } from 'hooks';
+import { useEffect } from 'react';
+import { BundleState, Cell } from 'store/state';
+import CellActionBar from './CellActionBar';
+import './CodeCell.css';
 import CodeEditor from './CodeEditor';
 import Preview from './Preview';
 import Resizable from './Resizable';
-import './CodeCell.css';
-import CellActionBar from './CellActionBar';
-import { BundleState, Cell } from 'store/state';
-import { useAppActions, useAppSelector } from 'hooks';
 
 const CodeCell = ({ id, content }: Cell) => {
   const { bundle, updateCell } = useAppActions();
@@ -21,8 +21,6 @@ const CodeCell = ({ id, content }: Cell) => {
 
   useEffect(() => {
     const timeOutID = setTimeout(async () => {
-      console.log('start bundle', time);
-
       return bundle(id, content);
     }, time);
 
