@@ -1,10 +1,10 @@
 import MDEditor from '@uiw/react-md-editor';
-import './TextEditor.css';
 import { useEffect, useRef, useState } from 'react';
 import CellActionBar from './CellActionBar';
+import './TextEditor.css';
 
 const TextEditor = ({ id }: { id: string }) => {
-  const [value, setValue] = useState('**Hello world!!!**');
+  const [value, setValue] = useState('**Click outside to collaspe**');
   const [editing, setEditing] = useState(true);
   const editorRef = useRef<HTMLDivElement | null>(null);
 

@@ -1,5 +1,11 @@
 # Code Playground
 
-A vanilla Javascript/React Code playground for testing purposes, supports the es6 import syntax
+A vanilla Javascript/React/Markdown playground for testing purposes.
+
+## Features
+
+- Supports the ES6 syntax
+- Supports importing JS packages by name
+- Markdown Preview
 
 Demo: https://code-playground-swav.vercel.app/
